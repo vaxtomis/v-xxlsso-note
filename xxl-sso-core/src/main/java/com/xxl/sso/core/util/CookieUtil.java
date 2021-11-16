@@ -65,6 +65,8 @@ public class CookieUtil {
 
 	/**
 	 * 查询Cookie
+	 * 通过 request 获取所有 cookie
+	 * 找到名字为 {key} 的 cookie 并返回
 	 *
 	 * @param request
 	 * @param key
@@ -83,6 +85,8 @@ public class CookieUtil {
 	
 	/**
 	 * 删除Cookie
+	 * 通过 request 获取所有 cookie
+	 * 找到名字为 {key} 的 cookie 并置空
 	 *
 	 * @param request
 	 * @param response

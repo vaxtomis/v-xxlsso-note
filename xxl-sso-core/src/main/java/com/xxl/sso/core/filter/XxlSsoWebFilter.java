@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  * web sso filter
- *
+ * Web 过滤器
  * @author xuxueli 2018-04-03
  */
 public class XxlSsoWebFilter extends HttpServlet implements Filter {
@@ -66,9 +66,13 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
                 && logoutPath.equals(servletPath)) {
 
             // remove cookie
+            // 通过 Cookie 移除 sessionID
+            // (也就是名为 SSO_SESSIONID 的 cookie 不再保存 sessionID)
             SsoWebLoginHelper.removeSessionIdByCookie(req, res);
 
             // redirect logout
+            // 拼接登出页面 URL
+            // 重定向
             String logoutPageUrl = ssoServer.concat(Conf.SSO_LOGOUT);
             res.sendRedirect(logoutPageUrl);
 
@@ -79,6 +83,7 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
         XxlSsoUser xxlUser = SsoWebLoginHelper.loginCheck(req, res);
 
         // valid login fail
+        // 登录失败 (找不到对应的用户)
         if (xxlUser == null) {
 
             String header = req.getHeader("content-type");
@@ -105,10 +110,12 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
         }
 
         // ser sso user
+        // 在 request 中传入 SsoUser 对象
         request.setAttribute(Conf.SSO_USER, xxlUser);
 
 
         // already login, allow
+        // 继续转发
         chain.doFilter(request, response);
         return;
     }

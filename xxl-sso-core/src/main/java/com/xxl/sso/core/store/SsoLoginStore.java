@@ -6,7 +6,7 @@ import com.xxl.sso.core.util.JedisUtil;
 
 /**
  * local login store
- *
+ * 本地登录存储 (使用 redis 实现)
  * @author xuxueli 2018-04-02 20:03:11
  */
 public class SsoLoginStore {

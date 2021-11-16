@@ -96,6 +96,7 @@ public class SsoWebLoginHelper {
 
     /**
      * client logout, cookie only
+     * 通过 sessionID 置空对应的 cookie
      *
      * @param request
      * @param response
@@ -106,7 +107,8 @@ public class SsoWebLoginHelper {
 
     /**
      * get sessionid by cookie
-     *
+     * 通过 cookie名 (SSO_SESSIONID) 获取 cookie 的 value (cookieSessionId)
+     * 也就是固定名称为 SSO_SESSIONID 的 cookie 中存储了 sessionID
      * @param request
      * @return
      */

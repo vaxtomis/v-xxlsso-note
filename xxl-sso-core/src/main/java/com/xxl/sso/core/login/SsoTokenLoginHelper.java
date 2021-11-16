@@ -60,18 +60,20 @@ public class SsoTokenLoginHelper {
      * @return
      */
     public static XxlSsoUser loginCheck(String  sessionId){
-
+        // 从 LoginStore (redis) 中获取对应的 SsoUser 对象
         String storeKey = SsoSessionIdHelper.parseStoreKey(sessionId);
         if (storeKey == null) {
             return null;
         }
-
+        // 从 LoginStore (redis) 中获取对应的 SsoUser 对象
         XxlSsoUser xxlUser = SsoLoginStore.get(storeKey);
         if (xxlUser != null) {
             String version = SsoSessionIdHelper.parseVersion(sessionId);
+            // 版本验证
             if (xxlUser.getVersion().equals(version)) {
 
                 // After the expiration time has passed half, Auto refresh
+                // 过期时间过半则自动刷新
                 if ((System.currentTimeMillis() - xxlUser.getExpireFreshTime()) > xxlUser.getExpireMinute()/2) {
                     xxlUser.setExpireFreshTime(System.currentTimeMillis());
                     SsoLoginStore.put(storeKey, xxlUser);
@@ -86,7 +88,8 @@ public class SsoTokenLoginHelper {
 
     /**
      * login check
-     *
+     * 从 request头中获取 sessionID，再通过 sessionID
+     * 从 redis 中取得 SsoUser 对象
      * @param request
      * @return
      */
